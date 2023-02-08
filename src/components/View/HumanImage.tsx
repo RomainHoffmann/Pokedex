@@ -17,7 +17,7 @@ const HumanImage = ({ size }: Props) => {
         height: `${size}%`,
         display: "block",
       }}
-      alt=""
+      alt="human"
     />
   )
 }
