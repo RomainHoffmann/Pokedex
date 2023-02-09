@@ -1,16 +1,33 @@
-import React from "react"
-import { useState } from "react"
-import { Generation } from "../../data/generations"
+import { useCallback, useRef, useState } from "react"
 import { useAppSelector } from "../../hooks/useAppSelector"
 import usePokemons from "../../hooks/usePokemons"
 import Filter from "../Filters/Filter"
+import Spinner from "../Shared/Spinner"
 import PokemonCard from "./PokemonCard"
 
 const PokemonList = () => {
-  const { pokemons } = usePokemons()
+  const [displayedNumber, setDisplayedNumber] = useState(9)
+  const { pokemons, error, loading } = usePokemons(displayedNumber)
   const searchTextFilter = useAppSelector(
     (state) => state.filter.searchTextFilter
   )
+
+  const observer = useRef<IntersectionObserver>()
+  const lastPokemonElementRef = useCallback(
+    (node: any) => {
+      if (loading) return
+      if (observer.current) observer.current.disconnect()
+      observer.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) {
+          setDisplayedNumber((prevNumber) => prevNumber + 9)
+        }
+      })
+      if (node) observer.current.observe(node)
+    },
+    [loading]
+  )
+
+  if (error) console.log(error)
 
   return (
     <>
@@ -38,13 +55,20 @@ const PokemonList = () => {
                 <PokemonCard
                   key={`pokemon-${index}`}
                   index={index + 1}
-                  pokemon={pokemon}
+                  pokemonName={pokemon.name}
+                  lastElementReference={
+                    pokemons.length === index + 1
+                      ? lastPokemonElementRef
+                      : undefined
+                  }
                 ></PokemonCard>
               )
             }
           })}
         </div>
       </div>
+      {loading && <Spinner></Spinner>}
+      {error && <Spinner></Spinner>}
     </>
   )
 }

@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react"
 import useComparatorSize from "../../hooks/useComparatorSize"
 import HumanImage from "./HumanImage"
 import HumanSizeInput from "./HumanSizeInput"
@@ -6,8 +5,6 @@ import PokemonImage from "./PokemonImage"
 
 const PokemonSizeComparator = () => {
   const { humanSize, pokemonSize } = useComparatorSize()
-
-  useEffect(() => {}, [])
 
   return (
     <>

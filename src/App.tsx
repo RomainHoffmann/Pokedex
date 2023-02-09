@@ -6,13 +6,11 @@ import PokemonList from "./components/List/PokemonList"
 import { Provider } from "react-redux"
 import store from "./redux/store"
 
-const MemoizedPokemonList = React.memo(PokemonList)
-
 function App() {
   return (
     <Provider store={store}>
       <Layout>
-        <MemoizedPokemonList />
+        <PokemonList />
         <Outlet />
       </Layout>
     </Provider>

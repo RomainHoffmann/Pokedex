@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit"
 import type { PayloadAction } from "@reduxjs/toolkit"
-import { PokemonDetailed } from "../hooks/usePokemon"
+import { PokemonDetailed } from "../api"
 
 export type Active = PokemonDetailed | undefined
 

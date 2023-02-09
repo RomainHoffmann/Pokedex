@@ -5,15 +5,14 @@ import styled from "styled-components"
 import { colours } from "../../data/typeColors"
 import { useAppDispatch } from "../../hooks/useAppDispatch"
 import usePokemon from "../../hooks/usePokemon"
-import { Pokemon } from "../../hooks/usePokemons"
 import { setActivePokemon } from "../../redux/activePokemonSlice"
 import PokemonNumber from "../Shared/PokemonNumber"
 import PokemonType from "../Shared/PokemonType"
-import Spinner from "../Shared/Spinner"
 
 type Props = {
-  pokemon: Pokemon
+  pokemonName: string
   index: number
+  lastElementReference?: React.Ref<HTMLDivElement>
 }
 
 const PokemonCardStyle = styled(motion.div)`
@@ -29,82 +28,87 @@ const PokemonCardStyle = styled(motion.div)`
   cursor: pointer;
 `
 
-const PokemonCard = ({ pokemon, index }: Props) => {
+const PokemonCard = ({ pokemonName, lastElementReference }: Props) => {
   const dispatch = useAppDispatch()
-  const { pokemon: pokemonDetailed } = usePokemon(`/${pokemon.name}`)
+  const { pokemon, loading, error } = usePokemon(pokemonName)
   const navigate = useNavigate()
 
-  if (!pokemonDetailed) return <Spinner></Spinner>
+  if (error) console.log(error)
 
   return (
-    <LayoutGroup id="card-swap-animation">
-      <PokemonCardStyle
-        initial={{ scale: 0 }}
-        animate={{ scale: 1 }}
-        id={`card-${pokemonDetailed.info.id}`}
-        background={colours[pokemonDetailed.info.type[0]].background}
-        layoutId={`card-${pokemonDetailed.info.id}`}
-        onClick={() => {
-          dispatch(setActivePokemon(pokemonDetailed))
-          navigate(`/${pokemon.name}`)
-        }}
-        whileHover={{
-          scale: 1.05,
-        }}
-      >
-        <div
-          id="card-header"
-          style={{
-            display: "flex",
-            justifyContent: "space-around",
-            alignItems: "center",
-            padding: 10,
-            textTransform: "capitalize",
-            color: "white",
-            fontWeight: "bold",
-          }}
-        >
-          <h2
-            id="card-header-name"
-            style={{
-              fontSize: "1.5rem",
-              textShadow: "0px 0px 15px rgba(0,0,0,.6)",
+    <>
+      {pokemon && (
+        <LayoutGroup id="card-swap-animation">
+          <PokemonCardStyle
+            ref={lastElementReference}
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            id={`card-${pokemon.info.id}`}
+            background={colours[pokemon.info.type[0]].background}
+            layoutId={`card-${pokemon.info.id}`}
+            onClick={() => {
+              dispatch(setActivePokemon(pokemon))
+              navigate(`/${pokemon.info.name}`)
+            }}
+            whileHover={{
+              scale: 1.05,
             }}
           >
-            {pokemon.name}
-          </h2>
-          {pokemonDetailed && <PokemonNumber index={pokemonDetailed.info.id} />}
-        </div>
-        <div
-          id="card-content"
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <img
-            id="card-content-image"
-            src={pokemonDetailed.info.image.officialArtwork}
-            alt={`Image of ${pokemon.name}`}
-            style={{ width: "70%" }}
-          />
-        </div>
-        <div
-          id="card-footer"
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            gap: 10,
-            padding: 10,
-          }}
-        >
-          {pokemonDetailed?.info.type.map((type, index) => (
-            <PokemonType key={`type-${index}`} type={type}></PokemonType>
-          ))}
-        </div>
-      </PokemonCardStyle>
-    </LayoutGroup>
+            <div
+              id="card-header"
+              style={{
+                display: "flex",
+                justifyContent: "space-around",
+                alignItems: "center",
+                padding: 10,
+                textTransform: "capitalize",
+                color: "white",
+                fontWeight: "bold",
+              }}
+            >
+              <h2
+                id="card-header-name"
+                style={{
+                  fontSize: "1.5rem",
+                  textShadow: "0px 0px 15px rgba(0,0,0,.6)",
+                }}
+              >
+                {pokemon.info.name}
+              </h2>
+              {pokemon && <PokemonNumber index={pokemon.info.id} />}
+            </div>
+            <div
+              id="card-content"
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <img
+                id="card-content-image"
+                src={pokemon.info.image.officialArtwork}
+                alt={`Image of ${pokemon.info.name}`}
+                style={{ width: "70%" }}
+              />
+            </div>
+            <div
+              id="card-footer"
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                gap: 10,
+                padding: 10,
+              }}
+            >
+              {pokemon.info.type.map((type, index) => (
+                <PokemonType key={`type-${index}`} type={type}></PokemonType>
+              ))}
+            </div>
+          </PokemonCardStyle>
+        </LayoutGroup>
+      )}
+    </>
   )
 }
 

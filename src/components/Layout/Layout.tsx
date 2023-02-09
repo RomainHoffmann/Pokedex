@@ -6,7 +6,6 @@ import PokeballBackground from "./PokeballBackground"
 
 const Layout = ({ children }: { children: ReactNode }) => {
   const activePokemon = useAppSelector((state) => state.activePokemon)
-  console.log(activePokemon)
 
   return (
     <>

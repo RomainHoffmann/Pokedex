@@ -1,39 +1,31 @@
-import axios from "axios"
+import { CancelToken } from "axios"
 import React, { useEffect } from "react"
-import { fetchPokemons } from "../api/fetchPokemons"
-import { baseUrl } from "../api"
-import { useAppSelector } from "./useAppSelector"
+import { Pokemon } from "../api"
+import { getPokemons } from "../api/getPokemons"
 
-export type Pokemon = {
-  name: string
-  url: string
-}
+const resultPerPage = 9
 
-const usePokemons = () => {
+const usePokemons = (numberOfResults?: number) => {
   const [pokemons, setPokemons] = React.useState<Pokemon[]>([])
-  const generationFilter = useAppSelector(
-    (state) => state.filter.generationFilter
-  )
-
-  let url: string
-  let limit: string
+  const [loading, setLoading] = React.useState<boolean>(true)
+  const [error, setError] = React.useState<any | null>(null)
 
   useEffect(() => {
     ;(async () => {
-      if (generationFilter) {
-        limit = `limit=${
-          generationFilter.limit.to - generationFilter.limit.from
-        }&offset=${generationFilter.limit.from}`
-      } else {
-        limit = "limit=15&offset=0"
+      setLoading(true)
+      try {
+        const pokemons = await getPokemons(numberOfResults)
+
+        setPokemons(pokemons)
+      } catch (error) {
+        setError(error)
+      } finally {
+        setLoading(false)
       }
-      url = `${baseUrl}?${limit}}`
-
-      setPokemons(await fetchPokemons(url))
     })()
-  }, [generationFilter])
+  }, [numberOfResults])
 
-  return { pokemons }
+  return { pokemons, error, loading, setLoading }
 }
 
 export default usePokemons
