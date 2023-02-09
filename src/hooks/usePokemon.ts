@@ -1,7 +1,7 @@
 import React, { useEffect } from "react"
 import { fetchPokemon } from "../api/fetchPokemon"
 
-export type Pokemon = {
+export type PokemonDetailed = {
   info: PokemonInfo
   speciesInfo?: PokemonSpeciesInfo
 }
@@ -42,11 +42,11 @@ export type PokemonSpeciesInfo = {
 }
 
 const usePokemon = (pathname: string, withInfo: boolean = false) => {
-  const [pokemon, setPokemon] = React.useState<Pokemon>()
+  const [pokemon, setPokemon] = React.useState<PokemonDetailed>()
 
   useEffect(() => {
     ;(async () => {
-      const response: Pokemon = await fetchPokemon(pathname)
+      const response: PokemonDetailed = await fetchPokemon(pathname)
       setPokemon(response)
     })()
   }, [pathname])

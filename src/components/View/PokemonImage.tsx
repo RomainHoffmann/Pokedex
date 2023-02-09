@@ -1,12 +1,12 @@
 import React from "react"
-import { useActivePokemon } from "../../context/activePokemon"
+import { useAppSelector } from "../../hooks/useAppSelector"
 
 type Props = {
   size: number
 }
 
 const PokemonImage = ({ size }: Props) => {
-  const { activePokemon } = useActivePokemon()
+  const activePokemon = useAppSelector((state) => state.activePokemon.pokemon)
   return (
     // <div style={{ border: "1px solid" }}></div>
     <img

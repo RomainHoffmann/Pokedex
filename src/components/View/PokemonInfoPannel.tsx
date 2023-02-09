@@ -1,16 +1,16 @@
 import React from "react"
-import { useActivePokemon } from "../../context/activePokemon"
 import { colours } from "../../data/typeColors"
 import {
   convertCentimetersToMeter,
   kilogramWithUnit,
 } from "../../helpers/convert"
 import { padLeadingZeroes } from "../../helpers/padLeadingZeroes"
+import { useAppSelector } from "../../hooks/useAppSelector"
 import PokemonNumber from "../Shared/PokemonNumber"
 import PokemonType from "../Shared/PokemonType"
 
 const PokemonInfoPannel = () => {
-  const { activePokemon } = useActivePokemon()
+  const activePokemon = useAppSelector((state) => state.activePokemon.pokemon)
 
   return (
     <div

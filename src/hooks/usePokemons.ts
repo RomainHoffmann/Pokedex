@@ -23,7 +23,7 @@ const usePokemons = () => {
           generationFilter.limit.to - generationFilter.limit.from
         }&offset=${generationFilter.limit.from}`
       } else {
-        limit = "limit=1&offset=0"
+        limit = "limit=15&offset=0"
       }
       url = `${baseUrl}?${limit}}`
 

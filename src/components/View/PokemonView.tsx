@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react"
 import { useLocation, useNavigate } from "react-router-dom"
 import { fetchPokemon } from "../../api/fetchPokemon"
-import { useActivePokemon } from "../../context/activePokemon"
 import { colours } from "../../data/typeColors"
 import PokemonInfoPannel from "./PokemonInfoPannel"
 import ViewTab from "./Tabs/ViewTab"
@@ -9,7 +8,9 @@ import styled from "styled-components"
 import { hexToRgb } from "../../helpers/hexToRgb"
 import { LayoutGroup, motion } from "framer-motion"
 import Spinner from "../Shared/Spinner"
-import { HumanSizeProvider } from "../../context/humanSize"
+import { useAppSelector } from "../../hooks/useAppSelector"
+import { useAppDispatch } from "../../hooks/useAppDispatch"
+import { setActivePokemon } from "../../redux/activePokemonSlice"
 
 const PokemonViewContainer = styled.div`
   height: 100%;
@@ -22,7 +23,6 @@ const PokemonViewContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  opacity: 0.5;
 `
 
 const PokemonViewStyle = styled(motion.div)`
@@ -72,16 +72,17 @@ const CloseButton = styled.div`
 
 const PokemonView = () => {
   const { pathname } = useLocation()
-  const { activePokemon, setActivePokemon } = useActivePokemon()
+  const activePokemon = useAppSelector((state) => state.activePokemon.pokemon)
   const navigate = useNavigate()
   const location = useLocation()
+  const dispatch = useAppDispatch()
 
   useEffect(() => {
     document.body.style.overflow = "hidden"
     ;(async () => {
       if (location.pathname.split("/")[1] !== activePokemon?.info.name) {
         const pokemon = await fetchPokemon(pathname)
-        setActivePokemon(pokemon)
+        dispatch(setActivePokemon(pokemon))
       }
     })()
 
@@ -112,7 +113,10 @@ const PokemonView = () => {
         >
           <CloseButton
             style={{ position: "absolute" }}
-            onClick={() => navigate("/")}
+            onClick={() => {
+              dispatch(setActivePokemon(undefined))
+              navigate("/")
+            }}
           >
             <span id="span-1"></span>
             <span id="span-2"></span>

@@ -16,7 +16,6 @@ const PokemonList = () => {
     Generation | undefined
   >(undefined)
 
-  console.log("rendering PokemonList")
   return (
     <>
       <PokemonFilterProvider

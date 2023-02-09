@@ -1,9 +1,13 @@
 import React, { ReactNode } from "react"
+import { useAppSelector } from "../../hooks/useAppSelector"
 import Footer from "./Footer"
 import Header from "./Header"
 import PokeballBackground from "./PokeballBackground"
 
 const Layout = ({ children }: { children: ReactNode }) => {
+  const activePokemon = useAppSelector((state) => state.activePokemon)
+  console.log(activePokemon)
+
   return (
     <>
       <Header></Header>

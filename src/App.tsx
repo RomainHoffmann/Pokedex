@@ -3,26 +3,19 @@ import { useState } from "react"
 import { Outlet } from "react-router-dom"
 import Layout from "./components/Layout/Layout"
 import PokemonList from "./components/List/PokemonList"
-import { HumanSizeProvider } from "./context/humanSize"
-import { Active, PokemonProvider } from "./context/activePokemon"
+import { Provider } from "react-redux"
+import store from "./redux/store"
 
 const MemoizedPokemonList = React.memo(PokemonList)
 
 function App() {
-  const [activePokemon, setActivePokemon] = useState<Active>(undefined)
-  const [humanSize, setHumanSize] = useState(175)
   return (
-    <Layout>
-      <HumanSizeProvider setHumanSize={setHumanSize} humanSize={humanSize}>
-        <PokemonProvider
-          activePokemon={activePokemon}
-          setActivePokemon={setActivePokemon}
-        >
-          <MemoizedPokemonList />
-          <Outlet />
-        </PokemonProvider>
-      </HumanSizeProvider>
-    </Layout>
+    <Provider store={store}>
+      <Layout>
+        <MemoizedPokemonList />
+        <Outlet />
+      </Layout>
+    </Provider>
   )
 }
 

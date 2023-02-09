@@ -2,10 +2,11 @@ import { LayoutGroup, motion } from "framer-motion"
 import React from "react"
 import { useNavigate } from "react-router-dom"
 import styled from "styled-components"
-import { useActivePokemon } from "../../context/activePokemon"
 import { colours } from "../../data/typeColors"
+import { useAppDispatch } from "../../hooks/useAppDispatch"
 import usePokemon from "../../hooks/usePokemon"
 import { Pokemon } from "../../hooks/usePokemons"
+import { setActivePokemon } from "../../redux/activePokemonSlice"
 import PokemonNumber from "../Shared/PokemonNumber"
 import PokemonType from "../Shared/PokemonType"
 import Spinner from "../Shared/Spinner"
@@ -29,13 +30,11 @@ const PokemonCardStyle = styled(motion.div)`
 `
 
 const PokemonCard = ({ pokemon, index }: Props) => {
-  const { setActivePokemon } = useActivePokemon()
+  const dispatch = useAppDispatch()
   const { pokemon: pokemonDetailed } = usePokemon(`/${pokemon.name}`)
   const navigate = useNavigate()
 
   if (!pokemonDetailed) return <Spinner></Spinner>
-
-  console.log(`RENDER CARD ${pokemon.name}`)
 
   return (
     <LayoutGroup id="card-swap-animation">
@@ -46,8 +45,8 @@ const PokemonCard = ({ pokemon, index }: Props) => {
         background={colours[pokemonDetailed.info.type[0]].background}
         layoutId={`card-${pokemonDetailed.info.id}`}
         onClick={() => {
+          dispatch(setActivePokemon(pokemonDetailed))
           navigate(`/${pokemon.name}`)
-          setActivePokemon(pokemonDetailed)
         }}
         whileHover={{
           scale: 1.05,

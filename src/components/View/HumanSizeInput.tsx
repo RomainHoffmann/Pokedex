@@ -1,9 +1,13 @@
 import { useState } from "react"
-import { useHumanSize } from "../../context/humanSize"
+import { useAppDispatch } from "../../hooks/useAppDispatch"
+import { useAppSelector } from "../../hooks/useAppSelector"
+import { setHumanSize } from "../../redux/humanSizeSlice"
+import { RootState } from "../../redux/store"
 
 const HumanSizeInput = () => {
-  const { humanSize, setHumanSize } = useHumanSize()
-  const [inputValue, setInputValue] = useState<number>(humanSize)
+  const humanSize = useAppSelector((state) => state.humanSize.humanSize)
+  const dispatch = useAppDispatch()
+  const [inputValue, setInputValue] = useState(humanSize)
 
   return (
     <div
@@ -22,8 +26,8 @@ const HumanSizeInput = () => {
         max={220}
         min={100}
         onChange={(e) => {
-          setHumanSize(Number(e.target.value))
           setInputValue(Number(e.target.value))
+          dispatch(setHumanSize(Number(e.target.value)))
         }}
         value={humanSize}
         style={{ width: "90%" }}
@@ -35,9 +39,14 @@ const HumanSizeInput = () => {
         }}
         onBlur={() => {
           if (inputValue <= 220 && inputValue >= 100) {
-            setHumanSize(inputValue)
+            dispatch(setHumanSize(inputValue))
           } else {
             setInputValue(humanSize)
+          }
+        }}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            e.currentTarget.blur()
           }
         }}
         value={inputValue}

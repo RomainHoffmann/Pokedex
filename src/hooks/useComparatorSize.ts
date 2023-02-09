@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react"
-import { useHumanSize } from "../context/humanSize"
-import { useActivePokemon } from "../context/activePokemon"
+import { useAppSelector } from "./useAppSelector"
 
 const wrongSize = ["dratini", "dragonair", "ekans", "arbok"]
 const maxSize = 100
 
 const useComparatorSize = () => {
-  const { humanSize } = useHumanSize()
+  const humanSize = useAppSelector((state) => state.humanSize.humanSize)
   const [sizes, setSizes] = useState({ humanSize: 0, pokemonSize: 0 })
-  const { activePokemon } = useActivePokemon()
+
+  const activePokemon = useAppSelector((state) => state.activePokemon.pokemon)
 
   useEffect(() => {
     const pokemonSize =

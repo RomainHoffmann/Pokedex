@@ -1,15 +1,13 @@
 import React, { CSSProperties, useState } from "react"
-import { HumanSizeProvider } from "../../../context/humanSize"
-import { useActivePokemon } from "../../../context/activePokemon"
 import { colours } from "../../../data/typeColors"
+import { useAppSelector } from "../../../hooks/useAppSelector"
 import PokemonCaracteristic from "../../Shared/PokemonCaracteristic"
 import { Tab, Tabs } from "../../Shared/Tab"
 import PokemonSizeComparator from "../PokemonSizeComparator"
 import ProgressBar from "./ProgressBar"
 
 const ViewTab = () => {
-  const { activePokemon } = useActivePokemon()
-  const [active, setActive] = useState(0)
+  const activePokemon = useAppSelector((state) => state.activePokemon.pokemon)
 
   return (
     <Tabs

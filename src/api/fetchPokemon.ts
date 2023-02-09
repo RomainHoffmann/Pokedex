@@ -1,8 +1,12 @@
 import axios from "axios"
-import { Pokemon, PokemonSpeciesInfo, PokemonInfo } from "../hooks/usePokemon"
+import {
+  PokemonDetailed,
+  PokemonSpeciesInfo,
+  PokemonInfo,
+} from "../hooks/usePokemon"
 
 export const fetchPokemon = async (pathname: string) => {
-  let pokemon: Pokemon
+  let pokemon: PokemonDetailed
   let url = `https://pokeapi.co/api/v2/pokemon${pathname}/`
 
   const pokemonInfoReponse = await axios.get(url)

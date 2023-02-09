@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react"
-import { HumanSizeProvider } from "../../context/humanSize"
 import useComparatorSize from "../../hooks/useComparatorSize"
 import HumanImage from "./HumanImage"
 import HumanSizeInput from "./HumanSizeInput"
