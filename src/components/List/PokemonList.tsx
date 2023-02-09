@@ -1,61 +1,50 @@
 import React from "react"
 import { useState } from "react"
-import {
-  PokemonFilterProvider,
-  usePokemonFilter,
-} from "../../context/pokemonFilter"
 import { Generation } from "../../data/generations"
+import { useAppSelector } from "../../hooks/useAppSelector"
 import usePokemons from "../../hooks/usePokemons"
 import Filter from "../Filters/Filter"
 import PokemonCard from "./PokemonCard"
 
 const PokemonList = () => {
   const { pokemons } = usePokemons()
-  const [searchFilter, setSearchFilter] = useState<string>("")
-  const [generationFiler, setGenerationFilter] = useState<
-    Generation | undefined
-  >(undefined)
+  const searchTextFilter = useAppSelector(
+    (state) => state.filter.searchTextFilter
+  )
 
   return (
     <>
-      <PokemonFilterProvider
-        searchFilter={searchFilter}
-        setSearchFilter={setSearchFilter}
-        setGenerationFilter={setGenerationFilter}
-        generationFilter={generationFiler}
+      <Filter></Filter>
+      <div
+        style={{
+          width: "100%",
+          display: "flex",
+          justifyContent: "center",
+        }}
       >
-        <Filter></Filter>
         <div
           style={{
-            width: "100%",
             display: "flex",
+            flexWrap: "wrap",
             justifyContent: "center",
+            gap: "2rem",
+            margin: 0,
+            maxWidth: "60vw",
           }}
         >
-          <div
-            style={{
-              display: "flex",
-              flexWrap: "wrap",
-              justifyContent: "center",
-              gap: "2rem",
-              margin: 0,
-              maxWidth: "60vw",
-            }}
-          >
-            {pokemons.map((pokemon, index) => {
-              if (pokemon.name.includes(searchFilter)) {
-                return (
-                  <PokemonCard
-                    key={`pokemon-${index}`}
-                    index={index + 1}
-                    pokemon={pokemon}
-                  ></PokemonCard>
-                )
-              }
-            })}
-          </div>
+          {pokemons.map((pokemon, index) => {
+            if (pokemon.name.includes(searchTextFilter)) {
+              return (
+                <PokemonCard
+                  key={`pokemon-${index}`}
+                  index={index + 1}
+                  pokemon={pokemon}
+                ></PokemonCard>
+              )
+            }
+          })}
         </div>
-      </PokemonFilterProvider>
+      </div>
     </>
   )
 }

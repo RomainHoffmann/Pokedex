@@ -1,5 +1,7 @@
-import { usePokemonFilter } from "../../context/pokemonFilter"
 import styled from "styled-components"
+import { useAppDispatch } from "../../hooks/useAppDispatch"
+import { useAppSelector } from "../../hooks/useAppSelector"
+import { setSearchTextFilter } from "../../redux/filterSlice"
 
 const SearchBarContainer = styled.div`
   position: relative;
@@ -36,7 +38,11 @@ const EraseButton = styled.button`
 `
 
 const SearchBar = () => {
-  const { searchFilter, setSearchFilter } = usePokemonFilter()
+  const searchTextFilter = useAppSelector(
+    (state) => state.filter.searchTextFilter
+  )
+  const dispatch = useAppDispatch()
+
   return (
     <SearchBarContainer>
       <input
@@ -50,16 +56,16 @@ const SearchBar = () => {
           boxShadow: "0 0 10px 0 rgba(0, 0, 0, 0.5)",
         }}
         type="text"
-        value={searchFilter}
+        value={searchTextFilter}
         placeholder="Search for a Pokemon ..."
         onChange={(e) => {
-          setSearchFilter(e.target.value)
+          dispatch(setSearchTextFilter(e.target.value))
         }}
       />
       <EraseButton
         style={{ position: "absolute" }}
         onClick={() => {
-          setSearchFilter("")
+          dispatch(setSearchTextFilter(""))
         }}
       >
         <span className="span-1"></span>

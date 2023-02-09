@@ -1,8 +1,8 @@
 import axios from "axios"
 import React, { useEffect } from "react"
 import { fetchPokemons } from "../api/fetchPokemons"
-import { usePokemonFilter } from "../context/pokemonFilter"
 import { baseUrl } from "../api"
+import { useAppSelector } from "./useAppSelector"
 
 export type Pokemon = {
   name: string
@@ -11,7 +11,9 @@ export type Pokemon = {
 
 const usePokemons = () => {
   const [pokemons, setPokemons] = React.useState<Pokemon[]>([])
-  const { generationFilter } = usePokemonFilter()
+  const generationFilter = useAppSelector(
+    (state) => state.filter.generationFilter
+  )
 
   let url: string
   let limit: string

@@ -12,7 +12,7 @@ const Filter = () => {
       }}
     >
       <SearchBar></SearchBar>
-      {/* <GenSelector></GenSelector> */}
+      <GenSelector></GenSelector>
     </div>
   )
 }

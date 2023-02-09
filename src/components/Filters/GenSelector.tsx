@@ -1,6 +1,8 @@
 import { CSSProperties } from "react"
-import { usePokemonFilter } from "../../context/pokemonFilter"
 import { generations } from "../../data/generations"
+import { useAppDispatch } from "../../hooks/useAppDispatch"
+import { useAppSelector } from "../../hooks/useAppSelector"
+import { setGenerationFilter } from "../../redux/filterSlice"
 
 const activeStyle: CSSProperties = { backgroundColor: "red", color: "white" }
 const inativeStyle: CSSProperties = {
@@ -9,7 +11,10 @@ const inativeStyle: CSSProperties = {
 }
 
 const GenSelector = () => {
-  const { setGenerationFilter, generationFilter } = usePokemonFilter()
+  const generationFilter = useAppSelector(
+    (state) => state.filter.generationFilter
+  )
+  const dispatch = useAppDispatch()
   return (
     <div style={{ display: "flex", justifyContent: "center", gap: 8 }}>
       {generations.map((generation, index) => {
@@ -17,7 +22,7 @@ const GenSelector = () => {
           <button
             key={index}
             onClick={() => {
-              setGenerationFilter(generation)
+              dispatch(setGenerationFilter(generation))
             }}
             style={{
               fontWeight: "bold",

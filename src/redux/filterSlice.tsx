@@ -29,6 +29,6 @@ export const filterSlice = createSlice({
   },
 })
 
-export const { setSearchTextFilter } = filterSlice.actions
+export const { setSearchTextFilter, setGenerationFilter } = filterSlice.actions
 
 export default filterSlice.reducer
