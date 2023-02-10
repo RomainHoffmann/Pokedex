@@ -4,8 +4,10 @@ import { useNavigate } from "react-router-dom"
 import styled from "styled-components"
 import { colours } from "../../data/typeColors"
 import { useAppDispatch } from "../../hooks/useAppDispatch"
-import usePokemon from "../../hooks/usePokemon"
-import { setActivePokemon } from "../../redux/activePokemonSlice"
+import {
+  useGetPokemonInfoQuery,
+  useGetPokemonSpeciesInfoQuery,
+} from "../../redux/api/api"
 import PokemonNumber from "../Shared/PokemonNumber"
 import PokemonType from "../Shared/PokemonType"
 
@@ -15,13 +17,13 @@ type Props = {
   lastElementReference?: React.Ref<HTMLDivElement>
 }
 
-const PokemonCardStyle = styled(motion.div)`
+const PokemonCardStyle = styled(motion.article)`
   background-color: ${(props: { background: string }) => props.background};
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: 300px;
-  height: 400px;
+  width: 280px;
+  height: 380px;
   padding: 1rem;
   border-radius: 20px;
   box-shadow: 5px 5px 15px 3px rgba(0, 0, 0, 0.2);
@@ -29,26 +31,23 @@ const PokemonCardStyle = styled(motion.div)`
 `
 
 const PokemonCard = ({ pokemonName, lastElementReference }: Props) => {
-  const dispatch = useAppDispatch()
-  const { pokemon, loading, error } = usePokemon(pokemonName)
   const navigate = useNavigate()
 
-  if (error) console.log(error)
+  const { data: pokemonInfo } = useGetPokemonInfoQuery(pokemonName)
 
   return (
     <>
-      {pokemon && (
+      {pokemonInfo && (
         <LayoutGroup id="card-swap-animation">
           <PokemonCardStyle
             ref={lastElementReference}
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
-            id={`card-${pokemon.info.id}`}
-            background={colours[pokemon.info.type[0]].background}
-            layoutId={`card-${pokemon.info.id}`}
+            id={`card-1`}
+            background={colours[pokemonInfo.type[0]].background}
+            layoutId={`card-${pokemonInfo.name}`}
             onClick={() => {
-              dispatch(setActivePokemon(pokemon))
-              navigate(`/${pokemon.info.name}`)
+              navigate(`/${pokemonInfo.name}`)
             }}
             whileHover={{
               scale: 1.05,
@@ -73,9 +72,9 @@ const PokemonCard = ({ pokemonName, lastElementReference }: Props) => {
                   textShadow: "0px 0px 15px rgba(0,0,0,.6)",
                 }}
               >
-                {pokemon.info.name}
+                {pokemonInfo.name}
               </h2>
-              {pokemon && <PokemonNumber index={pokemon.info.id} />}
+              <PokemonNumber index={pokemonInfo.id} />
             </div>
             <div
               id="card-content"
@@ -87,8 +86,8 @@ const PokemonCard = ({ pokemonName, lastElementReference }: Props) => {
             >
               <img
                 id="card-content-image"
-                src={pokemon.info.image.officialArtwork}
-                alt={`Image of ${pokemon.info.name}`}
+                src={pokemonInfo.image.officialArtwork}
+                alt={`Image of ${pokemonInfo.name}`}
                 style={{ width: "70%" }}
               />
             </div>
@@ -101,8 +100,8 @@ const PokemonCard = ({ pokemonName, lastElementReference }: Props) => {
                 padding: 10,
               }}
             >
-              {pokemon.info.type.map((type, index) => (
-                <PokemonType key={`type-${index}`} type={type}></PokemonType>
+              {pokemonInfo.type.map((type, index) => (
+                <PokemonType key={`type-${type}`} type={type}></PokemonType>
               ))}
             </div>
           </PokemonCardStyle>

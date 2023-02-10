@@ -97,8 +97,8 @@ export const Tabs = (props: TabsProps) => {
           (item: React.ReactElement, index) => {
             return (
               <TabTitle
-                key={index}
-                title={item!.props.title}
+                key={`tab-${item.props.title}}`}
+                title={item.props.title}
                 index={index}
                 setSelectedTab={setSelectedTab}
                 colorSchema={props.colorSchema?.titleSection}

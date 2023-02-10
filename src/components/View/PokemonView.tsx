@@ -3,11 +3,11 @@ import { useLocation, useNavigate } from "react-router-dom"
 import styled from "styled-components"
 import { colours } from "../../data/typeColors"
 import { hexToRgb } from "../../helpers/hexToRgb"
-import { useAppDispatch } from "../../hooks/useAppDispatch"
-import { useAppSelector } from "../../hooks/useAppSelector"
 import { useDisableScroll } from "../../hooks/useDisableScroll"
-import { useIsActiveMatchCurrentPathname } from "../../hooks/useIsActiveMatchCurrentPathname"
-import { setActivePokemon } from "../../redux/activePokemonSlice"
+import {
+  useGetPokemonInfoQuery,
+  useGetPokemonSpeciesInfoQuery,
+} from "../../redux/api/api"
 import PokemonInfoPannel from "./PokemonInfoPannel"
 import ViewTab from "./Tabs/ViewTab"
 
@@ -43,75 +43,56 @@ const PokemonViewStyle = styled(motion.div)`
   }
 `
 
-const CloseButton = styled.div`
-  position: absolute;
-  padding: 1rem;
-  cursor: pointer;
-  margin: 1rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  span {
-    position: absolute;
-    height: 0.2rem;
-    width: 100%;
-    background-color: rgb(255, 255, 255);
-  }
-
-  #span-1 {
-    transform: rotate(45deg);
-  }
-
-  #span-2 {
-    transform: rotate(-45deg);
-  }
-`
-
 const PokemonView = () => {
-  const { pathname } = useLocation()
-  const activePokemon = useAppSelector((state) => state.activePokemon.pokemon)
+  console.log("PokemonView")
+
   const navigate = useNavigate()
-  const location = useLocation()
-  const dispatch = useAppDispatch()
 
   useDisableScroll()
-  useIsActiveMatchCurrentPathname()
 
+  const location = useLocation()
+
+  const { data: pokemonInfo } = useGetPokemonInfoQuery(
+    location.pathname.split("/")[1]
+  )
+  const { data: pokemonSpeciesInfo } = useGetPokemonSpeciesInfoQuery(
+    location.pathname.split("/")[1]
+  )
+
+  console.log(pokemonInfo.name)
   return (
     <>
-      {activePokemon && (
-        <PokemonViewContainer
-          background={colours[activePokemon.info.type[0]].background}
-          onClick={(e) => {
-            navigate("/")
-          }}
-        >
-          <LayoutGroup id="card-swap-animation">
-            <PokemonViewStyle
-              layoutId={`card-${activePokemon.info.id}`}
-              id="pokemon-view"
-              background={colours[activePokemon.info.type[0]].background}
-              onClick={(e) => {
-                e.stopPropagation()
+      <PokemonViewContainer
+        id="pokemon-view-container"
+        background={colours[pokemonInfo!.type[0]].background}
+        onClick={(e) => {
+          navigate("/")
+        }}
+      >
+        <LayoutGroup id="card-swap-animation">
+          <PokemonViewStyle
+            layoutId={`card-${pokemonInfo.name}`}
+            id="pokemon-view"
+            background={colours[pokemonInfo!.type[0]].background}
+            onClick={(e) => {
+              e.stopPropagation()
+            }}
+          >
+            {/* <PokemonInfoPannel
+              pokemonDetailed={{
+                info: pokemonInfo!,
+                speciesInfo: pokemonSpeciesInfo!,
               }}
-            >
-              <CloseButton
-                style={{ position: "absolute" }}
-                onClick={() => {
-                  dispatch(setActivePokemon(undefined))
-                  navigate("/")
-                }}
-              >
-                <span id="span-1"></span>
-                <span id="span-2"></span>
-              </CloseButton>
-              <PokemonInfoPannel></PokemonInfoPannel>
-              <ViewTab></ViewTab>
-            </PokemonViewStyle>
-          </LayoutGroup>
-        </PokemonViewContainer>
-      )}
+            ></PokemonInfoPannel>
+            <ViewTab
+              pokemonDetailed={{
+                info: pokemonInfo!,
+                speciesInfo: pokemonSpeciesInfo!,
+              }}
+            ></ViewTab> */}
+          </PokemonViewStyle>
+        </LayoutGroup>
+      </PokemonViewContainer>
     </>
   )
 }

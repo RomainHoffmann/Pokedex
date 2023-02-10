@@ -1,18 +1,10 @@
-import { useAppSelector } from "../../hooks/useAppSelector"
-
 type Props = {
+  image: string
   size: number
 }
 
-const PokemonImage = ({ size }: Props) => {
-  const activePokemon = useAppSelector((state) => state.activePokemon.pokemon)
-  return (
-    <img
-      src={activePokemon?.info.image.dreamWorld}
-      style={{ height: `${size}%` }}
-      alt="dd"
-    />
-  )
+const PokemonImage = ({ image, size }: Props) => {
+  return <img src={image} style={{ height: `${size}%` }} alt="dd" />
 }
 
 export default PokemonImage

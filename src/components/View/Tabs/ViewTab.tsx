@@ -1,20 +1,23 @@
 import { colours } from "../../../data/typeColors"
 import { useAppSelector } from "../../../hooks/useAppSelector"
+import { PokemonDetailed } from "../../../redux/api/types"
 import PokemonCaracteristic from "../../Shared/PokemonCaracteristic"
 import { Tab, Tabs } from "../../Shared/Tab"
 import PokemonSizeComparator from "../PokemonSizeComparator"
 import ProgressBar from "./ProgressBar"
 
-const ViewTab = () => {
-  const activePokemon = useAppSelector((state) => state.activePokemon.pokemon)
+type Props = {
+  pokemonDetailed: PokemonDetailed
+}
 
+const ViewTab = ({ pokemonDetailed }: Props) => {
   return (
     <Tabs
       colorSchema={{
         titleSection: {
           active: {
-            backgroundColor: colours[activePokemon!.info.type[0]].background,
-            outline: colours[activePokemon!.info.type[0]].type,
+            backgroundColor: colours[pokemonDetailed.info.type[0]].background,
+            outline: colours[pokemonDetailed.info.type[0]].type,
           },
         },
       }}
@@ -28,86 +31,89 @@ const ViewTab = () => {
     >
       <Tab title="Details">
         <p style={{ padding: "10px 0px" }}>
-          {activePokemon?.speciesInfo?.description.replaceAll("", "")}
+          {pokemonDetailed.speciesInfo.description.replaceAll("", "")}
         </p>
         <PokemonCaracteristic
           label="Is Baby"
-          value={activePokemon?.speciesInfo?.isBaby.toString()}
+          value={pokemonDetailed.speciesInfo.isBaby.toString()}
         ></PokemonCaracteristic>
         <PokemonCaracteristic
           label="Is Mythical"
-          value={activePokemon?.speciesInfo?.isMythical.toString()}
+          value={pokemonDetailed.speciesInfo.isMythical.toString()}
         ></PokemonCaracteristic>
         <PokemonCaracteristic
           label="Is Legendary"
-          value={activePokemon?.speciesInfo?.isLegendary.toString()}
+          value={pokemonDetailed.speciesInfo.isLegendary.toString()}
         ></PokemonCaracteristic>
         <PokemonCaracteristic
           label="Shape"
-          value={activePokemon?.speciesInfo?.shape}
+          value={pokemonDetailed.speciesInfo.shape}
         ></PokemonCaracteristic>
         <PokemonCaracteristic
           label="Category"
-          value={activePokemon?.speciesInfo?.category}
+          value={pokemonDetailed.speciesInfo.category}
         ></PokemonCaracteristic>
         <PokemonCaracteristic
           label="Capture Rate"
-          value={activePokemon?.speciesInfo?.captureRate}
+          value={pokemonDetailed.speciesInfo.captureRate}
         ></PokemonCaracteristic>
         <PokemonCaracteristic
           label="Habitat"
-          value={activePokemon?.speciesInfo?.habitat}
+          value={pokemonDetailed.speciesInfo.habitat}
         ></PokemonCaracteristic>
       </Tab>
       <Tab title="Base Stats">
         <ProgressBar
-          value={activePokemon!.info.baseStats.hp}
+          value={pokemonDetailed.info.baseStats.hp}
           label={"HP"}
-          color={colours[activePokemon!.info.type[0]].type}
+          color={colours[pokemonDetailed.info.type[0]].type}
         ></ProgressBar>
         <ProgressBar
-          value={activePokemon!.info.baseStats.attack}
+          value={pokemonDetailed.info.baseStats.attack}
           label={"Attack"}
-          color={colours[activePokemon!.info.type[0]].type}
+          color={colours[pokemonDetailed.info.type[0]].type}
         ></ProgressBar>
         <ProgressBar
-          value={activePokemon!.info.baseStats.defense}
+          value={pokemonDetailed.info.baseStats.defense}
           label={"Defense"}
-          color={colours[activePokemon!.info.type[0]].type}
+          color={colours[pokemonDetailed.info.type[0]].type}
         ></ProgressBar>
         <ProgressBar
-          value={activePokemon!.info.baseStats.specialAttack}
+          value={pokemonDetailed.info.baseStats.specialAttack}
           label={"Special Attack"}
-          color={colours[activePokemon!.info.type[0]].type}
+          color={colours[pokemonDetailed.info.type[0]].type}
         ></ProgressBar>
         <ProgressBar
-          value={activePokemon!.info.baseStats.specialDefense}
+          value={pokemonDetailed.info.baseStats.specialDefense}
           label={"Special Defense"}
-          color={colours[activePokemon!.info.type[0]].type}
+          color={colours[pokemonDetailed.info.type[0]].type}
         ></ProgressBar>
         <ProgressBar
-          value={activePokemon!.info.baseStats.speed}
+          value={pokemonDetailed.info.baseStats.speed}
           label={"Speed"}
-          color={colours[activePokemon!.info.type[0]].type}
+          color={colours[pokemonDetailed.info.type[0]].type}
         ></ProgressBar>
       </Tab>
 
       <Tab title="Breeding">
         <PokemonCaracteristic
           label="Hatch Counter"
-          value={activePokemon?.speciesInfo?.hatchCounter}
+          value={pokemonDetailed.speciesInfo?.hatchCounter}
         ></PokemonCaracteristic>
         <PokemonCaracteristic
           label="Egg Groups"
-          value={(activePokemon?.speciesInfo?.eggGroup || []).join(", ")}
+          value={(pokemonDetailed.speciesInfo?.eggGroup || []).join(", ")}
         ></PokemonCaracteristic>
         <PokemonCaracteristic
           label="Growth Rate"
-          value={activePokemon?.speciesInfo?.growthRate}
+          value={pokemonDetailed.speciesInfo?.growthRate}
         ></PokemonCaracteristic>
       </Tab>
       <Tab title="Size">
-        <PokemonSizeComparator></PokemonSizeComparator>
+        <PokemonSizeComparator
+          pokemonSize={pokemonDetailed.info.height}
+          pokemonImage={pokemonDetailed.info.image.dreamWorld}
+        ></PokemonSizeComparator>
       </Tab>
     </Tabs>
   )

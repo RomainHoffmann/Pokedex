@@ -10,7 +10,7 @@ const Footer = () => {
         marginTop: "2rem",
       }}
     >
-      <p style={{ color: "white", fontWeight: "bold" }}></p>
+      <p id="footer-text" style={{ color: "white", fontWeight: "bold" }}></p>
     </footer>
   )
 }

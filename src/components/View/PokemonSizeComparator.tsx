@@ -1,10 +1,20 @@
+import { useAppSelector } from "../../hooks/useAppSelector"
 import useComparatorSize from "../../hooks/useComparatorSize"
 import HumanImage from "./HumanImage"
 import HumanSizeInput from "./HumanSizeInput"
 import PokemonImage from "./PokemonImage"
 
-const PokemonSizeComparator = () => {
-  const { humanSize, pokemonSize } = useComparatorSize()
+type Props = {
+  pokemonSize: number
+  pokemonImage: string
+}
+
+const PokemonSizeComparator = ({ pokemonSize, pokemonImage }: Props) => {
+  const { humanSize } = useAppSelector((state) => state.humanSize)
+  const { humanImageSize, pokemonImageSize } = useComparatorSize(
+    humanSize,
+    pokemonSize
+  )
 
   return (
     <>
@@ -26,8 +36,11 @@ const PokemonSizeComparator = () => {
             alignItems: "end",
           }}
         >
-          <HumanImage size={humanSize}></HumanImage>
-          <PokemonImage size={pokemonSize}></PokemonImage>
+          <HumanImage size={humanImageSize}></HumanImage>
+          <PokemonImage
+            size={pokemonImageSize}
+            image={pokemonImage}
+          ></PokemonImage>
         </div>
         <HumanSizeInput></HumanSizeInput>
       </div>

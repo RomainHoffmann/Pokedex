@@ -1,4 +1,3 @@
-import { useAppSelector } from "../../hooks/useAppSelector"
 import human from "/human.png"
 
 type Props = {
@@ -6,7 +5,6 @@ type Props = {
 }
 
 const HumanImage = ({ size }: Props) => {
-  const activePokemon = useAppSelector((state) => state.activePokemon)
   return (
     <img
       src={human}

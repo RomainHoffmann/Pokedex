@@ -7,12 +7,16 @@ const Filter = () => {
       style={{
         display: "flex",
         flexDirection: "column",
-        padding: "2rem",
+        padding: "2rem 0px",
         gap: "1rem",
+        alignItems: "center",
       }}
+      id="filter-container"
     >
-      <SearchBar></SearchBar>
-      <GenSelector></GenSelector>
+      <>
+        <SearchBar></SearchBar>
+        <GenSelector></GenSelector>
+      </>
     </div>
   )
 }

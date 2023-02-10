@@ -1,13 +1,18 @@
+import { clamp } from "framer-motion"
 import { useCallback, useRef, useState } from "react"
 import { useAppSelector } from "../../hooks/useAppSelector"
-import usePokemons from "../../hooks/usePokemons"
+import { useGetPokemonListQuery } from "../../redux/api/api"
 import Filter from "../Filters/Filter"
 import Loader from "../Shared/Loader"
 import PokemonCard from "./PokemonCard"
 
 const PokemonList = () => {
-  const [displayedNumber, setDisplayedNumber] = useState(9)
-  const { pokemons, error, loading } = usePokemons(displayedNumber)
+  const [displayedResults, setDisplayedResults] = useState(9)
+  const { generationFilter } = useAppSelector((state) => state.filter)
+  const { data, isLoading } = useGetPokemonListQuery({
+    limit: displayedResults,
+    offset: generationFilter ? generationFilter.limit.from : 0,
+  })
   const searchTextFilter = useAppSelector(
     (state) => state.filter.searchTextFilter
   )
@@ -15,60 +20,60 @@ const PokemonList = () => {
   const observer = useRef<IntersectionObserver>()
   const lastPokemonElementRef = useCallback(
     (node: any) => {
-      if (loading) return
+      if (isLoading) return
       if (observer.current) observer.current.disconnect()
       observer.current = new IntersectionObserver((entries) => {
         if (entries[0].isIntersecting) {
-          setDisplayedNumber((prevNumber) => prevNumber + 9)
+          setDisplayedResults((prevNumber) => prevNumber + 9)
         }
       })
       if (node) observer.current.observe(node)
     },
-    [loading]
+    [isLoading]
   )
 
-  if (error) console.log(error)
-
   return (
-    <>
+    <section>
       <Filter></Filter>
-      <div
-        style={{
-          width: "100%",
-          display: "flex",
-          justifyContent: "center",
-        }}
-      >
+      {data && (
         <div
           style={{
+            width: "100%",
             display: "flex",
-            flexWrap: "wrap",
             justifyContent: "center",
-            gap: "2rem",
-            margin: 0,
-            maxWidth: "60vw",
           }}
         >
-          {pokemons.map((pokemon, index) => {
-            if (pokemon.name.includes(searchTextFilter)) {
-              return (
-                <PokemonCard
-                  key={`pokemon-${index}`}
-                  index={index + 1}
-                  pokemonName={pokemon.name}
-                  lastElementReference={
-                    pokemons.length === index + 1
-                      ? lastPokemonElementRef
-                      : undefined
-                  }
-                ></PokemonCard>
-              )
-            }
-          })}
+          <div
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              justifyContent: "center",
+              gap: "2rem",
+              margin: 0,
+              maxWidth: "1200px",
+            }}
+          >
+            {data.map((pokemon, index) => {
+              if (pokemon.name.includes(searchTextFilter)) {
+                return (
+                  <PokemonCard
+                    key={`pokemon-${pokemon.name}`}
+                    index={index + 1}
+                    pokemonName={pokemon.name}
+                    lastElementReference={
+                      data.length === index + 1
+                        ? lastPokemonElementRef
+                        : undefined
+                    }
+                  ></PokemonCard>
+                )
+              }
+            })}
+          </div>
         </div>
-      </div>
-      {loading && <Loader />}
-    </>
+      )}
+      {isLoading && <Loader />}
+    </section>
   )
 }
 

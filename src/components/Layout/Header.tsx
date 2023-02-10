@@ -11,7 +11,7 @@ const Header = () => {
         height: "80px",
       }}
     >
-      <img src="/logo.svg" alt="" height={"60%"} />
+      <img id="header-logo" src="/logo.svg" alt="" height={"60%"} />
     </header>
   )
 }

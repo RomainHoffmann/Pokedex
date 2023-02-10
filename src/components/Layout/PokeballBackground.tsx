@@ -25,9 +25,13 @@ const PokeballContainer = styled.div`
 
 const PokeballBackground = () => {
   return (
-    <PokeballContainer>
-      <img src={pokeball} alt="" />
-      <div />
+    <PokeballContainer id="pokeball-background-container">
+      <img
+        id="pokeball-background-image"
+        src={pokeball}
+        alt="Pokeball Background"
+      />
+      <div id="pokeball-background-opacity" />
     </PokeballContainer>
   )
 }

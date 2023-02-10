@@ -1,8 +1,6 @@
-const baseUrl = "https://pokeapi.co/api/v2/pokemon"
-
 export type PokemonDetailed = {
   info: PokemonInfo
-  speciesInfo?: PokemonSpeciesInfo
+  speciesInfo: PokemonSpeciesInfo
 }
 
 export type PokemonInfo = {
@@ -44,5 +42,3 @@ export type Pokemon = {
   name: string
   url: string
 }
-
-export default { baseUrl }

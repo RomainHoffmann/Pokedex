@@ -44,8 +44,6 @@ const Loader = () => {
   return (
     <LoaderContainer>
       {[1, 2, 3].map((_, index) => {
-        console.log("rets")
-
         return (
           <LoaderDot
             key={`loader-${index}`}

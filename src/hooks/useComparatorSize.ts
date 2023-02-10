@@ -4,30 +4,22 @@ import { useAppSelector } from "./useAppSelector"
 const wrongSize = ["dratini", "dragonair", "ekans", "arbok"]
 const maxSize = 100
 
-const useComparatorSize = () => {
-  const humanSize = useAppSelector((state) => state.humanSize.humanSize)
-  const [sizes, setSizes] = useState({ humanSize: 0, pokemonSize: 0 })
-
-  const activePokemon = useAppSelector((state) => state.activePokemon.pokemon)
+const useComparatorSize = (humanSize: number, pokemonSize: number) => {
+  const [sizes, setSizes] = useState({ humanImageSize: 0, pokemonImageSize: 0 })
 
   useEffect(() => {
-    const pokemonSize =
-      (wrongSize.includes(activePokemon!.info.name)
-        ? activePokemon!.info.height / 2
-        : activePokemon!.info.height) * 100
-
     if (humanSize > pokemonSize) {
       setSizes({
-        humanSize: maxSize,
-        pokemonSize: (maxSize * pokemonSize) / humanSize,
+        humanImageSize: maxSize,
+        pokemonImageSize: (maxSize * pokemonSize) / humanSize,
       })
     } else {
       setSizes({
-        humanSize: (maxSize * humanSize) / pokemonSize,
-        pokemonSize: 100,
+        humanImageSize: (maxSize * humanSize) / pokemonSize,
+        pokemonImageSize: 100,
       })
     }
-  }, [activePokemon, humanSize])
+  }, [humanSize, pokemonSize])
 
   return { ...sizes }
 }
