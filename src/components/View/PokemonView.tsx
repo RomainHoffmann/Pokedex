@@ -44,8 +44,6 @@ const PokemonViewStyle = styled(motion.div)`
 `
 
 const PokemonView = () => {
-  console.log("PokemonView")
-
   const navigate = useNavigate()
 
   useDisableScroll()
@@ -59,12 +57,15 @@ const PokemonView = () => {
     location.pathname.split("/")[1]
   )
 
-  console.log(pokemonInfo.name)
+  if (!pokemonInfo || !pokemonSpeciesInfo) {
+    return null
+  }
+
   return (
     <>
       <PokemonViewContainer
         id="pokemon-view-container"
-        background={colours[pokemonInfo!.type[0]].background}
+        background={colours[pokemonInfo.type[0]].background}
         onClick={(e) => {
           navigate("/")
         }}
@@ -73,23 +74,23 @@ const PokemonView = () => {
           <PokemonViewStyle
             layoutId={`card-${pokemonInfo.name}`}
             id="pokemon-view"
-            background={colours[pokemonInfo!.type[0]].background}
+            background={colours[pokemonInfo.type[0]].background}
             onClick={(e) => {
               e.stopPropagation()
             }}
           >
-            {/* <PokemonInfoPannel
+            <PokemonInfoPannel
               pokemonDetailed={{
                 info: pokemonInfo!,
-                speciesInfo: pokemonSpeciesInfo!,
+                speciesInfo: pokemonSpeciesInfo,
               }}
             ></PokemonInfoPannel>
             <ViewTab
               pokemonDetailed={{
                 info: pokemonInfo!,
-                speciesInfo: pokemonSpeciesInfo!,
+                speciesInfo: pokemonSpeciesInfo,
               }}
-            ></ViewTab> */}
+            ></ViewTab>
           </PokemonViewStyle>
         </LayoutGroup>
       </PokemonViewContainer>

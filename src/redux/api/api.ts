@@ -65,6 +65,7 @@ export const pokemonApi = createApi({
               genus.language.name === "en"
           ).genus,
         }
+
         return pokemonSpeciesInfo
       },
     }),

@@ -34,6 +34,8 @@ const PokemonCard = ({ pokemonName, lastElementReference }: Props) => {
   const navigate = useNavigate()
 
   const { data: pokemonInfo } = useGetPokemonInfoQuery(pokemonName)
+  const { data: pokemonInfoSpeciess } =
+    useGetPokemonSpeciesInfoQuery(pokemonName)
 
   return (
     <>
