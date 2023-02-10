@@ -7,7 +7,6 @@ type Props = {
 const PokemonImage = ({ size }: Props) => {
   const activePokemon = useAppSelector((state) => state.activePokemon.pokemon)
   return (
-    // <div style={{ border: "1px solid" }}></div>
     <img
       src={activePokemon?.info.image.dreamWorld}
       style={{ height: `${size}%` }}

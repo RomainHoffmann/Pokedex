@@ -1,4 +1,3 @@
-import React, { CSSProperties, useState } from "react"
 import { colours } from "../../../data/typeColors"
 import { useAppSelector } from "../../../hooks/useAppSelector"
 import PokemonCaracteristic from "../../Shared/PokemonCaracteristic"

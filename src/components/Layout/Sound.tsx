@@ -1,4 +1,4 @@
-import React, { CSSProperties, useEffect, useState } from "react"
+import { CSSProperties, useEffect, useState } from "react"
 
 const Sound = () => {
   const [isPlaying, setIsPlaying] = useState(false)

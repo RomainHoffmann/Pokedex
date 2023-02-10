@@ -1,7 +1,6 @@
-import axios from "axios"
 import { PokemonDetailed, PokemonInfo, PokemonSpeciesInfo } from "."
-import { fetch } from "./fetch"
 import pokeApi from "./"
+import { fetch } from "./fetch"
 
 export const getPokemon = async (name: string) => {
   let pokemon: PokemonDetailed

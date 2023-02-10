@@ -1,4 +1,3 @@
-import { CancelToken } from "axios"
 import React, { useEffect } from "react"
 import { Pokemon } from "../api"
 import { getPokemons } from "../api/getPokemons"

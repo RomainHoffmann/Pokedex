@@ -1,4 +1,3 @@
-import { CancelToken } from "axios"
 import pokeApi, { Pokemon } from "."
 import { fetch } from "./fetch"
 

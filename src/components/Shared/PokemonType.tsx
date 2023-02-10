@@ -1,4 +1,3 @@
-import React from "react"
 import { colours } from "../../data/typeColors"
 
 type Props = {

@@ -1,5 +1,5 @@
 import { useEffect } from "react"
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch } from "react-redux"
 import { useLocation } from "react-router-dom"
 import { getPokemon } from "../api/getPokemon"
 import { setActivePokemon } from "../redux/activePokemonSlice"

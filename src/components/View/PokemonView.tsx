@@ -1,23 +1,19 @@
-import { useEffect, useState } from "react"
-import { useLocation, useNavigate } from "react-router-dom"
-import { getPokemon } from "../../api/getPokemon"
-import { colours } from "../../data/typeColors"
-import PokemonInfoPannel from "./PokemonInfoPannel"
-import ViewTab from "./Tabs/ViewTab"
-import styled from "styled-components"
-import { hexToRgb } from "../../helpers/hexToRgb"
 import { LayoutGroup, motion } from "framer-motion"
-import Spinner from "../Shared/Spinner"
-import { useAppSelector } from "../../hooks/useAppSelector"
+import { useLocation, useNavigate } from "react-router-dom"
+import styled from "styled-components"
+import { colours } from "../../data/typeColors"
+import { hexToRgb } from "../../helpers/hexToRgb"
 import { useAppDispatch } from "../../hooks/useAppDispatch"
-import { setActivePokemon } from "../../redux/activePokemonSlice"
+import { useAppSelector } from "../../hooks/useAppSelector"
 import { useDisableScroll } from "../../hooks/useDisableScroll"
 import { useIsActiveMatchCurrentPathname } from "../../hooks/useIsActiveMatchCurrentPathname"
+import { setActivePokemon } from "../../redux/activePokemonSlice"
+import PokemonInfoPannel from "./PokemonInfoPannel"
+import ViewTab from "./Tabs/ViewTab"
 
 const PokemonViewContainer = styled.div`
   height: 100%;
   width: 100vw;
-  // background-color: rgb(0, 0, 0, 0.5);
   background-color: ${(props: { background: string }) =>
     hexToRgb(props.background, 0.5)};
   position: fixed;

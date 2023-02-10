@@ -2,7 +2,6 @@ import { useState } from "react"
 import { useAppDispatch } from "../../hooks/useAppDispatch"
 import { useAppSelector } from "../../hooks/useAppSelector"
 import { setHumanSize } from "../../redux/humanSizeSlice"
-import { RootState } from "../../redux/store"
 
 const HumanSizeInput = () => {
   const humanSize = useAppSelector((state) => state.humanSize.humanSize)

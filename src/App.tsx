@@ -1,9 +1,7 @@
-import React from "react"
-import { useState } from "react"
+import { Provider } from "react-redux"
 import { Outlet } from "react-router-dom"
 import Layout from "./components/Layout/Layout"
 import PokemonList from "./components/List/PokemonList"
-import { Provider } from "react-redux"
 import store from "./redux/store"
 
 function App() {

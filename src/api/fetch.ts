@@ -1,4 +1,4 @@
-import axios, { AxiosResponse, CancelToken } from "axios"
+import axios, { AxiosResponse } from "axios"
 
 type Result = {
   [key: string]: any

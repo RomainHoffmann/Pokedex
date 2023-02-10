@@ -1,4 +1,3 @@
-import React from "react"
 import { padLeadingZeroes } from "../../helpers/padLeadingZeroes"
 
 type Props = {

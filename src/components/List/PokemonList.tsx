@@ -2,7 +2,7 @@ import { useCallback, useRef, useState } from "react"
 import { useAppSelector } from "../../hooks/useAppSelector"
 import usePokemons from "../../hooks/usePokemons"
 import Filter from "../Filters/Filter"
-import Spinner from "../Shared/Spinner"
+import Loader from "../Shared/Loader"
 import PokemonCard from "./PokemonCard"
 
 const PokemonList = () => {
@@ -67,8 +67,7 @@ const PokemonList = () => {
           })}
         </div>
       </div>
-      {loading && <Spinner></Spinner>}
-      {error && <Spinner></Spinner>}
+      {loading && <Loader />}
     </>
   )
 }
