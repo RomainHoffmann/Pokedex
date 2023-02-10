@@ -34,6 +34,7 @@ const PokemonCard = ({ pokemonName, lastElementReference }: Props) => {
   const navigate = useNavigate()
 
   const { data: pokemonInfo } = useGetPokemonInfoQuery(pokemonName)
+  //TODO: Remove this query who is used only to cache the data to make animation work
   const { data: pokemonInfoSpeciess } =
     useGetPokemonSpeciesInfoQuery(pokemonName)
 

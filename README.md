@@ -6,9 +6,10 @@ I made this project to improve my Front-end skills, and learn some libraries lik
 ## Authors
 
 - [@RomainHoffmann](https://github.com/RomainHoffmann)
+
 ## Demo
 
-Coming soon ...
+https://pokedex-4evd-mdacm1ap5-romainhoffmann.vercel.app/
 
 
 ## Tech Stack
