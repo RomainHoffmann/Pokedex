@@ -9,11 +9,17 @@ I made this project to improve my Front-end skills, and learn some libraries lik
 
 ## Demo
 
-https://pokedex-4evd-mdacm1ap5-romainhoffmann.vercel.app/
+https://pokedex-rho-flame.vercel.app/
 
 
 ## Tech Stack
 
-[React](https://fr.reactjs.org/), [TypeScript](https://www.typescriptlang.org/), [Vite](https://vitejs.dev/), [React Router](https://reactrouter.com/en/main), [Styled Components](https://styled-components.com/), [Framer Motion](https://www.framer.com/motion/), [Axios](https://axios-http.com/fr/docs/intro), [Redux Toolkit](https://redux-toolkit.js.org/)
+- Typescript
+- Vite
+- React
+- Redux ToolKit / Query
+- React router dom
+- Styled components
+- Framer Motion
 
 
