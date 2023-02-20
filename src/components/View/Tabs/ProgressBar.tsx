@@ -28,6 +28,7 @@ const ProgressBar = ({
         display: "flex",
         alignItems: "center",
         justifyContent: "space-between",
+        marginBottom: "0.5rem",
       }}
     >
       <span style={{ width: "40%", fontWeight: "600" }}>{label}</span>
